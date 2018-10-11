@@ -7,21 +7,36 @@ public class FlipperController : MonoBehaviour
 
     public bool aKey = false;
     public bool dKey = false;
+
+    bool started = false;
+
     public GameObject leftFlipper;
     public GameObject rightFlipper;
+
+    Rigidbody rRigidbody;
+    Rigidbody lRigidbody;
+
     public float speedUp = 16;
-    public float speedDown = -8;
+    public float speedDown = 8;
+
     public int leftLimitDown = 195;
     public int leftLimitUp = 165;
     public int rightLimitDown = 165;
     public int rightLimitUp = 195;
+
+
+    Vector3 eulerAngleVelocity;
+
     float leftY;
     float rightY;
 
 
     private void Start()
     {
-        
+        eulerAngleVelocity = new Vector3(0, 100 * speedUp, 0);
+
+        rRigidbody = rightFlipper.GetComponent<Rigidbody>();
+        lRigidbody = leftFlipper.GetComponent<Rigidbody>();
     }
 
     private void Update()
@@ -43,56 +58,64 @@ public class FlipperController : MonoBehaviour
         {
             dKey = false;
         }
+        if(Input.GetKey("p"))
+        {
+            started = true;
+        }
         leftY = leftFlipper.transform.eulerAngles.y;
         rightY = rightFlipper.transform.eulerAngles.y;
+        
     }
 
     void FixedUpdate()
     {
+        Quaternion deltaRotation = Quaternion.Euler(eulerAngleVelocity * Time.deltaTime);
+        Quaternion nDeltaRotation = Quaternion.Euler(-eulerAngleVelocity * Time.deltaTime);
 
-        if (aKey && dKey)
+        if (aKey && dKey && started)
         {
             if (leftY > leftLimitUp)
             {
-                leftFlipper.transform.Rotate(0, -speedUp, 0 * Time.deltaTime);
+
+                lRigidbody.MoveRotation(lRigidbody.rotation * nDeltaRotation);
             }
             if (rightY < rightLimitUp)
             {
-                rightFlipper.transform.Rotate(0, speedUp, 0 * Time.deltaTime);
+                rRigidbody.MoveRotation(rRigidbody.rotation * deltaRotation);
             }
         }
-        else if (aKey)
+        else if (aKey && started)
         {
             if (leftY > leftLimitUp)
             {
-                leftFlipper.transform.Rotate(0, -speedUp, 0 * Time.deltaTime);
+                lRigidbody.MoveRotation(lRigidbody.rotation * nDeltaRotation);
             }
             if (rightY > rightLimitDown)
             {
-                rightFlipper.transform.Rotate(0, speedDown, 0 * Time.deltaTime);
+                rRigidbody.MoveRotation(rRigidbody.rotation * nDeltaRotation);
             }
         }
-        else if (dKey)
+        else if (dKey && started)
         {
 
             if (rightY < rightLimitUp)
             {
-                rightFlipper.transform.Rotate(0, speedUp, 0 * Time.deltaTime);
+                rRigidbody.MoveRotation(rRigidbody.rotation * deltaRotation);
             }
             if (leftY < leftLimitDown)
             {
-                leftFlipper.transform.Rotate(0, -speedDown, 0 * Time.deltaTime);
+                lRigidbody.MoveRotation(lRigidbody.rotation * deltaRotation);
             }
         }
-        else
+        else if(started)
         {
             if (rightY > rightLimitDown)
             {
-                rightFlipper.transform.Rotate(0, speedDown, 0 * Time.deltaTime);
+                rRigidbody.MoveRotation(rRigidbody.rotation * nDeltaRotation);
             }
             if (leftY < leftLimitDown)
             {
-                leftFlipper.transform.Rotate(0, -speedDown, 0 * Time.deltaTime);
+                lRigidbody.MoveRotation(lRigidbody.rotation * deltaRotation);
             }
         }
     }
