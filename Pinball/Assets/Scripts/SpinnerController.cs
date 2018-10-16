@@ -1,0 +1,29 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class SpinnerController : MonoBehaviour {
+
+    public GameObject spinner;
+
+
+    public float speed = 1;
+
+    public float pastSpeed;
+
+    Vector3 eulerAngleVelocity;
+
+    private void Start()
+    {
+        eulerAngleVelocity = new Vector3(0, 100 * speed, 0);
+    }
+
+    void FixedUpdate () {
+        Quaternion deltaRotation = Quaternion.Euler(eulerAngleVelocity * Time.deltaTime);
+		if(speed != pastSpeed){
+            pastSpeed = speed;
+            eulerAngleVelocity = new Vector3(0, 100 * speed);
+        }
+        spinner.GetComponent<Rigidbody>().MoveRotation(spinner.GetComponent<Rigidbody>().rotation * deltaRotation);
+	}
+}

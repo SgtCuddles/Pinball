@@ -1,0 +1,2 @@
+C:\Users\zdaly3183\Documents\PinballGit\Pinball\obj\Debug\Assembly-CSharp.csprojAssemblyReference.cache
+C:\Users\zdaly3183\Documents\PinballGit\Pinball\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.cache
