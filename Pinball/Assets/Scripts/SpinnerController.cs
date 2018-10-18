@@ -7,14 +7,15 @@ public class SpinnerController : MonoBehaviour {
     public GameObject spinner;
 
 
-    public float speed = 1;
+    public int speed = 1;
 
-    public float pastSpeed;
+    public int pastSpeed;
 
     Vector3 eulerAngleVelocity;
 
     private void Start()
     {
+        GlobalStuff.spinSpeed = speed;
         eulerAngleVelocity = new Vector3(0, 100 * speed, 0);
     }
 
@@ -23,7 +24,9 @@ public class SpinnerController : MonoBehaviour {
 		if(speed != pastSpeed){
             pastSpeed = speed;
             eulerAngleVelocity = new Vector3(0, 100 * speed);
+            Debug.Log(speed);
         }
         spinner.GetComponent<Rigidbody>().MoveRotation(spinner.GetComponent<Rigidbody>().rotation * deltaRotation);
+        speed = GlobalStuff.spinSpeed;
 	}
 }
