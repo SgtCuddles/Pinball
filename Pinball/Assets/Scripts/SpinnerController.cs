@@ -20,11 +20,13 @@ public class SpinnerController : MonoBehaviour {
     }
 
     void FixedUpdate () {
+
         Quaternion deltaRotation = Quaternion.Euler(eulerAngleVelocity * Time.deltaTime);
+
+        //rotates the spinner according to the speed set in GlobalStuff
 		if(speed != pastSpeed){
             pastSpeed = speed;
             eulerAngleVelocity = new Vector3(0, 100 * speed);
-            Debug.Log(speed);
         }
         spinner.GetComponent<Rigidbody>().MoveRotation(spinner.GetComponent<Rigidbody>().rotation * deltaRotation);
         speed = GlobalStuff.spinSpeed;

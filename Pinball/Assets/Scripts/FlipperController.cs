@@ -29,6 +29,8 @@ public class FlipperController : MonoBehaviour
     float leftY;
     float rightY;
 
+    bool prevState = false;
+
 
     private void Start()
     {
@@ -109,8 +111,6 @@ public class FlipperController : MonoBehaviour
             {
                 rRigidbody.MoveRotation(rRigidbody.rotation * nDeltaRotation);
             }
-            GlobalStuff.spinSpeed += 1;
-            Debug.Log(GlobalStuff.spinSpeed);
         }
         else if (dKey && started)
         {
@@ -134,6 +134,16 @@ public class FlipperController : MonoBehaviour
             if (leftY < leftLimitDown)
             {
                 lRigidbody.MoveRotation(lRigidbody.rotation * deltaRotation);
+            }
+        }
+
+        //controls when spinner rotation speed shifts
+        if (aKey != prevState)
+        {
+            prevState = aKey;
+            if (aKey)
+            {
+                GlobalStuff.spinSpeed += 1;
             }
         }
     }
