@@ -8,15 +8,22 @@ public class FlipperController : MonoBehaviour
     public bool aKey = false;
     public bool dKey = false;
 
+    public bool space = false;
+
     bool started = GlobalStuff.start;
 
     public GameObject leftFlipper;
     public GameObject rightFlipper;
 
+    public GameObject plunger;
+
+    Rigidbody plungerBody;
+
     Rigidbody rRigidbody;
     Rigidbody lRigidbody;
 
     public int speed = 16;
+    public int releaseSpeed = 10;
 
     public int leftLimitDown = 195;
     public int leftLimitUp = 165;
@@ -40,6 +47,7 @@ public class FlipperController : MonoBehaviour
 
         rRigidbody = rightFlipper.GetComponent<Rigidbody>();
         lRigidbody = leftFlipper.GetComponent<Rigidbody>();
+        plungerBody = plunger.GetComponent<Rigidbody>();
     }
 
     private void Update()
@@ -62,6 +70,15 @@ public class FlipperController : MonoBehaviour
         else
         {
             dKey = false;
+        }
+
+        if (Input.GetKey("space"))
+        {
+            space = true;
+        }
+        else
+        {
+            space = false;
         }
 
         //this was put in because of an error that would occur upon starting the game
@@ -88,6 +105,21 @@ public class FlipperController : MonoBehaviour
         Quaternion deltaRotation = Quaternion.Euler(eulerAngleVelocity * Time.deltaTime);
         Quaternion nDeltaRotation = Quaternion.Euler(-eulerAngleVelocity * Time.deltaTime);
 
+        if (space && plungerBody.transform.position.z > -5)
+        {
+            //pull plunger back until it's pulled 5 units back
+            plungerBody.velocity = -transform.forward * releaseSpeed;
+        }
+        else if (plungerBody.transform.position.z < 0)
+        {
+            //accelerate plunger forward
+            plungerBody.velocity = transform.forward * releaseSpeed;
+        }
+        else
+        {
+            plungerBody.velocity = transform.position;
+        }
+        
         if (aKey && dKey && started)
         {
             //both flippers up
