@@ -109,6 +109,7 @@ public class FlipperController : MonoBehaviour
         {
             //pull plunger back until it's pulled 5 units back
             plungerBody.velocity = -transform.forward * releaseSpeed;
+
         }
         else if (plungerBody.transform.position.z < 0)
         {
