@@ -1,0 +1,26 @@
+Scripts : 
+	pop bumper
+	flipper
+	point manager
+	plunger
+	drop target
+	target
+	
+Functions for scripts
+	Pop Bumper
+		trigger
+		add force to collider
+	Flipper
+		rotate when button pressed
+	Point Manager
+		take alerts of collisions
+		add points when appropriate
+	Plunger
+		pull back and record distance pulled back
+		add force to collider based on distance pulled back
+	drop target
+		check for collision
+		retract
+		extend
+	target
+		check for collision

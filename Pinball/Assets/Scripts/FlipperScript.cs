@@ -4,25 +4,24 @@ using UnityEngine;
 
 public class FlipperScript : MonoBehaviour
 {
-    public bool     key             = false;
-    public string   keyName;
-    public int      speed           = 16;
-    public int      releaseSpeed    = 10;
-    public int      up              = 195;
-    public int      down            = 165;
-    float           y;
-
-    public GameObject flipper;
-
-    Rigidbody rb;
-    Vector3 eulerAngleVelocity;
+    public  bool        invert          = false;
+    public  bool        key             = false;
+    public  string      keyName;
+    public  int         speed           = 16;
+    public  int         releaseSpeed    = 10;
+    public  int         up              = 195;
+    public  int         down            = 165;
+    public  GameObject  flipper;
+    float               y;
+    Rigidbody           rb;
+    Vector3             eulerAngleVelocity;
 
 
     private void Start()
     {
 
         //this allows me to adjust the speed at which the flippers rotate
-        eulerAngleVelocity = new Vector3(0, 10 * speed, 0);
+        eulerAngleVelocity = new Vector3(0, 100 * speed, 0);
 
         rb = flipper.GetComponent<Rigidbody>();
     }
@@ -53,23 +52,28 @@ public class FlipperScript : MonoBehaviour
         //rather than their mesh which gives better hit detection
         Quaternion deltaRotation    = Quaternion.Euler(eulerAngleVelocity * Time.deltaTime);
         Quaternion nDeltaRotation   = Quaternion.Euler(-eulerAngleVelocity * Time.deltaTime);
-
         if (key)
         {
-            if (y < up)
+            if (y < up && !invert)
             {
                 rb.MoveRotation(rb.rotation * deltaRotation);
             }
-        }
-        else
-        {
-            if (y > down)
+            else if (y > up && invert)
             {
                 rb.MoveRotation(rb.rotation * nDeltaRotation);
             }
         }
-        
-
+        else
+        {
+            if (y > down && !invert)
+            {
+                rb.MoveRotation(rb.rotation * nDeltaRotation);
+            }
+            else if (y < down && invert)
+            {
+                rb.MoveRotation(rb.rotation * deltaRotation);
+            }
+        }
     }
 }
 
