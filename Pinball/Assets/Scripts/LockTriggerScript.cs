@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LockScript : MonoBehaviour {
 
+    public GameObject lockGroup;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -13,4 +15,12 @@ public class LockScript : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.name == "ball")
+        {
+            
+        }
+    }
 }

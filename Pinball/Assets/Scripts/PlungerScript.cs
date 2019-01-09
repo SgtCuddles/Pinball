@@ -22,7 +22,7 @@ public class PlungerScript : MonoBehaviour {
     {
         rb = plunger.GetComponent<Rigidbody>();
         initPosition = rb.position.z;
-        velocity = new Vector3(0, 0, speed);
+        velocity = new Vector3(0, 0, speed*2);
         nVelocity = new Vector3(0, 0, speed/4 * -1);
 
     }
@@ -47,6 +47,10 @@ public class PlungerScript : MonoBehaviour {
         {
             rb.AddForce(nVelocity);
         }
+        else if(initPosition == position)
+        {
+            rb.velocity = Vector3.zero;
+        }
         else if(initPosition >= position)
         {
             rb.AddForce(velocity);
@@ -55,14 +59,15 @@ public class PlungerScript : MonoBehaviour {
         {
             rb.AddForce(nVelocity);
         }
+        
     }
-
+    
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject.name);
         if (collision.gameObject.name == "plungerStop")
         {
             rb.velocity = Vector3.zero;
         }
     }
+    
 }
